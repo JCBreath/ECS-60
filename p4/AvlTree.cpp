@@ -51,7 +51,7 @@
 template <class Comparable>
 void AvlTree<Comparable>::remove( const Comparable & x )
 {
- 	remove(x, root);
+    remove(x, root);
 }
 
 
@@ -65,10 +65,10 @@ void AvlTree<Comparable>::remove(const Comparable & x, AvlNode<Comparable> * & t
   if( t == NULL ) // never found x
     return; // do nothing
   else
-    if( x < t->element )
+    if( x.price < t->element.price )
       remove( x, t->left);
     else
-      if( t->element < x )
+      if( t->element.price < x.price )
         remove( x, t->right);
       else // Found x
       {
@@ -93,23 +93,18 @@ void AvlTree<Comparable>::remove(const Comparable & x, AvlNode<Comparable> * & t
       } // found x
   // Now check and restore AVL property.  This is done for whole path from root.
   if(t)
-  {
     if( height( t->left ) - height( t->right ) == 2 )  // left subtree too high
-    {
       if( height(t->left->left) >  height(t->left->right))
         rotateWithLeftChild( t );
       else
         doubleWithLeftChild( t );
-    }
     else
       if( height( t->left ) - height( t->right ) == -2 ) // right subtree too high
-      {
         if( height(t->right->right) > height(t->right->left))
           rotateWithRightChild( t );
         else
           doubleWithRightChild( t );
-      }
-  }
+
   if(t)
     t->height = max(height(t->left), height( t->right)) + 1;
 } // remove()
@@ -119,9 +114,9 @@ void AvlTree<Comparable>::remove(const Comparable & x, AvlNode<Comparable> * & t
          * Return smallest item or ITEM_NOT_FOUND if empty.
          */
         template <class Comparable>
-        const Comparable & AvlTree<Comparable>::findMin( ) const
+        Comparable * AvlTree<Comparable>::findMin( )
         {
-            return elementAt( findMin( root ) );
+            return &(findMin( root ) ->element);
         }
 
         /**
@@ -129,9 +124,9 @@ void AvlTree<Comparable>::remove(const Comparable & x, AvlNode<Comparable> * & t
          * Return the largest item of ITEM_NOT_FOUND if empty.
          */
         template <class Comparable>
-        const Comparable & AvlTree<Comparable>::findMax( ) const
+        Comparable * AvlTree<Comparable>::findMax( )
         {
-            return elementAt( findMax( root ) );
+            return &(findMax( root ) ->element);
         }
 
         /**
@@ -212,27 +207,23 @@ void AvlTree<Comparable>::remove(const Comparable & x, AvlNode<Comparable> * & t
         {
             if( t == NULL )
                 t = new AvlNode<Comparable>( x, NULL, NULL );
-            else if( x < t->element )
+            else if( x.price < t->element.price )
             {
                 insert( x, t->left );
                 if( height( t->left ) - height( t->right ) == 2 )
-                {
-                    if( x < t->left->element )
+                    if( x.price < t->left->element.price )
                         rotateWithLeftChild( t );
                     else
                         doubleWithLeftChild( t );
-                }
             }
-            else if( t->element < x )
+            else if( t->element.price < x.price )
             {
                 insert( x, t->right );
                 if( height( t->right ) - height( t->left ) == 2 )
-                {
-                    if( t->right->element < x )
+                    if( t->right->element.price < x.price )
                         rotateWithRightChild( t );
                     else
                         doubleWithRightChild( t );
-                }
             }
             else
                 ;  // Duplicate; do nothing
@@ -282,9 +273,9 @@ void AvlTree<Comparable>::remove(const Comparable & x, AvlNode<Comparable> * & t
         AvlTree<Comparable>::find( const Comparable & x, AvlNode<Comparable> *t ) const
         {
             while( t != NULL )
-                if( x < t->element )
+                if( x.price < t->element.price )
                     t = t->left;
-                else if( t->element < x )
+                else if( t->element.price < x.price )
                     t = t->right;
                 else
                     return t;    // Match
@@ -407,7 +398,7 @@ void AvlTree<Comparable>::remove(const Comparable & x, AvlNode<Comparable> * & t
             if( t != NULL )
             {
                 printTree( t->left );
-                cout << t->element << endl;
+                cout << t->element.price << endl;
                 printTree( t->right );
             }
         }

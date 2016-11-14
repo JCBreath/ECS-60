@@ -40,12 +40,13 @@
         class AvlTree
         {
           public:
+            
             explicit AvlTree( const Comparable & notFound );
             AvlTree( const AvlTree & rhs );
             ~AvlTree( );
 
-            const Comparable & findMin( ) const;
-            const Comparable & findMax( ) const;
+            Comparable * findMin( );
+            Comparable * findMax( );
             const Comparable & find( const Comparable & x ) const;
             bool isEmpty( ) const;
             void printTree( ) const;

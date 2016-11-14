@@ -23,8 +23,8 @@
           public:
             explicit QuadraticHashTable( const HashedObj & notFound, int size = 101 );
             QuadraticHashTable( const QuadraticHashTable & rhs )
-              : ITEM_NOT_FOUND( rhs.ITEM_NOT_FOUND ),
-                array( rhs.array ), currentSize( rhs.currentSize ) { }
+              : array( rhs.array), ITEM_NOT_FOUND( rhs.ITEM_NOT_FOUND ),
+                currentSize( rhs.currentSize ) { }
 
             const HashedObj & find( const HashedObj & x ) const;
 
@@ -35,6 +35,7 @@
             const QuadraticHashTable & operator=( const QuadraticHashTable & rhs );
 
             enum EntryType { ACTIVE, EMPTY, DELETED };
+            int findPos( const HashedObj & x ) const;
           private:
             struct HashEntry
             {
@@ -51,7 +52,7 @@
             bool isPrime( int n ) const;
             int nextPrime( int n ) const;
             bool isActive( int currentPos ) const;
-            int findPos( const HashedObj & x ) const;
+            
             int hash( const string & key, int tableSize ) const;
             int hash( int key, int tableSize ) const;
             void rehash( );
