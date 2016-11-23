@@ -26,10 +26,10 @@
               : array( rhs.array), ITEM_NOT_FOUND( rhs.ITEM_NOT_FOUND ),
                 currentSize( rhs.currentSize ) { }
 
-            const HashedObj & find( const HashedObj & x ) const;
+            int find( const HashedObj & x ) const;
 
             void makeEmpty( );
-            void insert( const HashedObj & x );
+            int insert( const HashedObj & x );
             void remove( const HashedObj & x );
 
             const QuadraticHashTable & operator=( const QuadraticHashTable & rhs );
@@ -46,7 +46,7 @@
                   : element( e ), info( i ) { }
             };
 
-            vector<HashEntry> array;
+            HashEntry array[10000];
             int currentSize;
             const HashedObj ITEM_NOT_FOUND;
             bool isPrime( int n ) const;

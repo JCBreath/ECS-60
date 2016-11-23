@@ -42,7 +42,7 @@
          */
         template <class HashedObj>
         QuadraticHashTable<HashedObj>::QuadraticHashTable( const HashedObj & notFound, int size )
-          : array( nextPrime( size ) ), ITEM_NOT_FOUND( notFound )
+          :  ITEM_NOT_FOUND( notFound )
         {
             makeEmpty( );
         }
@@ -52,17 +52,18 @@
          * already present, then do nothing.
          */
         template <class HashedObj>
-        void QuadraticHashTable<HashedObj>::insert( const HashedObj & x )
+        int QuadraticHashTable<HashedObj>::insert( const HashedObj & x )
         {
                 // Insert x as active
             int currentPos = findPos( x );
             if( isActive( currentPos ) )
-                return;
+                return currentPos;
             array[ currentPos ] = HashEntry( x, ACTIVE );
 
                 // Rehash; see Section 5.5
-            if( ++currentSize > array.size( ) / 2 )
-                rehash( );
+            //if( ++currentSize > 10000 / 2 )
+             //   rehash( );
+            return currentPos;
         }
 
         /**
@@ -71,18 +72,18 @@
         template <class HashedObj>
         void QuadraticHashTable<HashedObj>::rehash( )
         {
-            vector<HashEntry> oldArray = array;
+            /*vector<HashEntry> oldArray = array;
 
                 // Create new double-sized, empty table
-            array.resize( nextPrime( 2 * oldArray.size( ) ) );
-            for( int j = 0; j < array.size( ); j++ )
+            array.resize( nextPrime( 2 * old10000 ) );
+            for( int j = 0; j < 10000; j++ )
                 array[ j ].info = EMPTY;
 
                 // Copy table over
             currentSize = 0;
-            for( int i = 0; i < oldArray.size( ); i++ )
+            for( int i = 0; i < old10000; i++ )
                 if( oldArray[ i ].info == ACTIVE )
-                    insert( oldArray[ i ].element );
+                    insert( oldArray[ i ].element );*/
         }
 
         /**
@@ -93,14 +94,14 @@
         int QuadraticHashTable<HashedObj>::findPos( const HashedObj & x ) const
         {
 /* 1*/      int collisionNum = 0;
-/* 2*/      int currentPos = hash( x, array.size( ) );
+/* 2*/      int currentPos = hash( x, 10000 );
 
 /* 3*/      while( array[ currentPos ].info != EMPTY &&
                    array[ currentPos ].element != x )
             {
 /* 4*/          currentPos += 2 * ++collisionNum - 1;  // Compute ith probe
-/* 5*/          if( currentPos >= array.size( ) )
-/* 6*/              currentPos -= array.size( );
+/* 5*/          if( currentPos >= 10000 )
+/* 6*/              currentPos -= 10000;
             }
 
 /* 7*/      return currentPos;
@@ -123,10 +124,10 @@
          * Return the matching item, or ITEM_NOT_FOUND, if not found.
          */
         template <class HashedObj>
-        const HashedObj & QuadraticHashTable<HashedObj>::find( const HashedObj & x ) const
+        int QuadraticHashTable<HashedObj>::find( const HashedObj & x ) const
         {
             int currentPos = findPos( x );
-            return isActive( currentPos ) ? array[ currentPos ].element : ITEM_NOT_FOUND;
+            return isActive( currentPos ) ? currentPos : NULL;
         }
 
         /**
@@ -136,7 +137,7 @@
         void QuadraticHashTable<HashedObj>::makeEmpty( )
         {
             currentSize = 0;
-            for( int i = 0; i < array.size( ); i++ )
+            for( int i = 0; i < 10000; i++ )
                 array[ i ].info = EMPTY;
         }
 

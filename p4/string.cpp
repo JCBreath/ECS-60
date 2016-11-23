@@ -1,4 +1,4 @@
-#include <string.h>
+#include <cstring>
 #include "mystring.h"
 
 string::string( const char * cstring )
