@@ -1,0 +1,23 @@
+timetest.out : timetest.o LinkedList.o CursorList.o StackAr.o StackLi.o QueueAr.o SkipList.o
+	g++ -g -o timetest.out timetest.o timetest.o LinkedList.o CursorList.o StackAr.o StackLi.o QueueAr.o SkipList.o
+
+timetest.o : timetest.cpp CPUTimer.h
+	g++ -g -c timetest.cpp
+
+LinkedList.o : LinkedList.cpp LinkedList.h
+	g++ -g -c LinkedList.cpp
+
+CursorList.o : CursorList.cpp CursorList.h
+	g++ -g -c CursorList.cpp
+
+StackAr.o : StackAr.cpp StackAr.h
+	g++ -g -c StackAr.cpp
+
+StackLi.o : StackLi.cpp StackLi.h
+	g++ -g -c StackLi.cpp
+
+QueueAr.o : QueueAr.cpp QueueAr.h
+	g++ -g -c QueueAr.cpp
+
+SkipList.o : SkipList.cpp SkipList.h
+	g++ -g -c SkipList.cpp
